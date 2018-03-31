@@ -1,0 +1,56 @@
+
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<button onclick="doSomething()">vibrate </button>
+<button onclick="doCoordinates()">getCoordinates</button>
+
+<div style="color:black;" id="box" height = "200px" width="200px"></div>
+<canvas id="c"></canvas>
+<script>
+function doVibrate()
+{
+	navigator.vibrate(1000);
+}
+function doCoordinates()
+{
+	navigator.geolocations.getCurrentPosition(
+		function(position){
+			console.log("position is("+position.coords.latitude+","+position.coords.longitude+")");
+		},
+		function error(err){
+			console.log("whoops");
+		}
+		);
+}
+	var canvas = document.getElementById("c");
+	canvas.width = window.innerWidth;
+	canvas.height = window.innerHeight;
+
+	var c = canvas.getContext("2d");
+	c.fillStyle = "red";
+	
+	function drawSquare(x,y)
+	{
+		c.fillRect(x,y,20,20);
+	}
+	document.onmousemove = function(e) {
+		drawSquare(e.clientX, e.clientY);
+	}
+	document.ontouchmove = function(e) 
+	{
+		var numberOfTouches = e.touches.length;
+		
+		for (var n=0; n < numberOfTouches; n++)
+		{
+			drawSquare(e.touches[n].pageX, e.touches[n].pageY);
+			var img = new Image();
+			img.src = 'my.png';
+			c.drawImage(img,e.clientX,e.clientY,e.clientX,e.clientY);
+		} }
+	
+</script>
+</body>
+</html>
